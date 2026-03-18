@@ -5,6 +5,7 @@ from flask import Blueprint, request, jsonify
 from services.extract_text import extract_text
 from services.parse_nimcet import parse_nimcet, try_detect_exam as try_detect_nimcet
 from services.parse_cuet import parse_cuet
+from services.parse_rrb import parse_rrb
 from services.validator import validate_responses
 from utils.http_errors import HttpError
 
@@ -49,6 +50,9 @@ def parse_pdf():
         # CUET answers are already mapped Q1->CorrectOptionID
         responses, answer_key, candidate_details = parse_cuet(text, ak_text)
         extracted = len(responses)
+    elif exam == "rrb":
+        responses, answer_key, candidate_details = parse_rrb(pdf_bytes, text)
+        extracted = len(responses)
     else:
         raise HttpError(f"Unsupported exam type: {exam}", 400, "UnsupportedExam")
 
@@ -57,7 +61,7 @@ def parse_pdf():
     if expected_raw.isdigit():
         expected = int(expected_raw)
     if expected <= 0:
-        expected = 120 if exam == "nimcet" else len(answer_key) if answer_key else 75 # default CUET 75
+        expected = 120 if exam == "nimcet" else len(answer_key) if answer_key else (100 if exam == "rrb" else 75)
 
     detected_questions = len(answer_key) if answer_key else extracted
     confidence = detected_questions / expected if expected > 0 else 0.0

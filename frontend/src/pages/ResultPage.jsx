@@ -73,7 +73,7 @@ export function ResultPage({ result, onBack }) {
       </section>
 
       <section className="grid">
-        <StatCard label="Total marks" value={result?.marks ?? "-"} hint={result?.exam === "cuet" ? "+4 / -1" : "Section-wise (NIMCET)"} />
+        <StatCard label="Total marks" value={result?.marks ?? "-"} hint={result?.exam === "cuet" ? "+4 / -1" : result?.exam === "rrb" ? "+1 / -0.33" : "Section-wise (NIMCET)"} />
         <StatCard label="Correct" value={result?.correct ?? "-"} />
         <StatCard label="Incorrect" value={result?.incorrect ?? "-"} />
         <StatCard label="Unattempted" value={result?.unattempted ?? "-"} />

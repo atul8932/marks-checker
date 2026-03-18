@@ -8,7 +8,7 @@ router.get("/results/:exam", async (req, res, next) => {
     const exam = String(req.params.exam).toLowerCase();
     
     // We only support these standard exams for now
-    if (!["nimcet", "cuet"].includes(exam)) {
+    if (!["nimcet", "cuet", "rrb"].includes(exam)) {
       const err = new Error("Unsupported exam for admin panel.");
       err.statusCode = 400;
       throw err;

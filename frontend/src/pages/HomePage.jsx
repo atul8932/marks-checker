@@ -3,6 +3,7 @@ import { useState } from "react";
 const EXAMS = [
   { id: "nimcet", title: "NIMCET", desc: "NIT MCA Common Entrance Test", tag: "MCA", active: true, reqAnswerKey: false },
   { id: "cuet", title: "CUET (PG)", desc: "Common University Entrance Test", tag: "PG", active: true, reqAnswerKey: true },
+  { id: "rrb", title: "RRB Technician", desc: "Railway Recruitment Board Grade III", tag: "Govt Job", active: true, reqAnswerKey: false },
   { id: "jee-main", title: "JEE Main", desc: "Joint Entrance Exam (Main)", tag: "Engineering", active: false, reqAnswerKey: true },
   { id: "jee-adv", title: "JEE Advanced", desc: "Joint Entrance Exam (Advanced)", tag: "Engineering", active: false, reqAnswerKey: true },
   { id: "neet", title: "NEET UG", desc: "National Eligibility cum Entrance Test", tag: "Medical", active: false, reqAnswerKey: true },

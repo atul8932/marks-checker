@@ -3,6 +3,7 @@ const { runNimcetPipeline } = require("../services/pipelines/nimcetPipeline");
 const { logger } = require("../utils/logger");
 
 const { runCuetPipeline } = require("../services/pipelines/cuetPipeline");
+const { runRrbPipeline } = require("../services/pipelines/rrbPipeline");
 
 async function uploadAndScore(req, res) {
   const exam = String(req.body.exam || "nimcet").toLowerCase();
@@ -31,6 +32,8 @@ async function uploadAndScore(req, res) {
       throw err;
     }
     pipelineResult = await runCuetPipeline({ parserUrl, file, answerKeyFile });
+  } else if (exam === "rrb") {
+    pipelineResult = await runRrbPipeline({ parserUrl, file });
   } else {
     const err = new Error(`Unsupported exam: ${exam}`);
     err.statusCode = 400;
