@@ -35,7 +35,7 @@ async function runRrbPipeline({ parserUrl, file }) {
     const ans = cleanedResponses[qLabel];
     const key = answerKeyRaw[qLabel];
 
-    if (!ans) {
+    if (!ans || ans === "Unattempted" || ans === "Not Answered") {
       totalUnattempted += 1;
       continue;
     }

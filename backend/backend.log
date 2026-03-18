@@ -1,14 +1,9 @@
 nohup: ignoring input
-[dotenv@17.3.1] injecting env (3) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[dotenv@17.3.1] injecting env (3) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
 Backend listening on http://localhost:5000
-{"ts":"2026-03-18T11:21:34.302Z","level":"info","msg":"parser_response","meta":{"exam":"rrb","confidence":1,"extracted":83}}
-(node:311616) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
+{"ts":"2026-03-18T12:03:34.729Z","level":"info","msg":"parser_response","meta":{"exam":"rrb","confidence":1,"extracted":100}}
+(node:321471) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
 (Use `node --trace-warnings ...` to show where the warning was created)
-{"ts":"2026-03-18T11:21:34.454Z","level":"info","msg":"result_saved","meta":{"id":"69ba8abe9dc848689c9eebf4","exam":"rrb","name":"vICKY KUMAR","app_no":"Unknown"}}
-{"ts":"2026-03-18T11:21:34.460Z","level":"info","msg":"request","meta":{"method":"POST","path":"/api/upload","status":200,"ms":491}}
-{"ts":"2026-03-18T11:21:34.462Z","level":"info","msg":"access","meta":{"line":"::1 - - [18/Mar/2026:11:21:34 +0000] \"POST /api/upload HTTP/1.1\" 200 175 \"http://localhost:5173/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\""}}
-{"ts":"2026-03-18T11:32:18.241Z","level":"info","msg":"parser_response","meta":{"exam":"rrb","confidence":1,"extracted":83}}
-(node:311616) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
-{"ts":"2026-03-18T11:32:20.007Z","level":"info","msg":"result_saved","meta":{"id":"69ba8d429dc848689c9eebf7","exam":"rrb","name":"vICKY KUMAR","app_no":"Unknown"}}
-{"ts":"2026-03-18T11:32:20.008Z","level":"info","msg":"request","meta":{"method":"POST","path":"/api/upload","status":200,"ms":2118}}
-{"ts":"2026-03-18T11:32:20.008Z","level":"info","msg":"access","meta":{"line":"::1 - - [18/Mar/2026:11:32:20 +0000] \"POST /api/upload HTTP/1.1\" 200 175 \"http://localhost:5173/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\""}}
+{"ts":"2026-03-18T12:03:34.899Z","level":"info","msg":"result_saved","meta":{"id":"69ba9496cf7ff81149536201","exam":"rrb","name":"vICKY KUMAR","app_no":"Unknown"}}
+{"ts":"2026-03-18T12:03:34.901Z","level":"info","msg":"request","meta":{"method":"POST","path":"/api/upload","status":200,"ms":528}}
+{"ts":"2026-03-18T12:03:34.902Z","level":"info","msg":"access","meta":{"line":"::1 - - [18/Mar/2026:12:03:34 +0000] \"POST /api/upload HTTP/1.1\" 200 176 \"http://localhost:5173/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\""}}
