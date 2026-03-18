@@ -51,7 +51,7 @@ def parse_rrb(pdf_bytes: bytes, raw_text: str) -> Tuple[Dict[str, str], Dict[str
                     
                     # Detect green text (the correct option marker, e.g. "4.")
                     if g > r and g > b and g > 100:
-                        match = re.match(r'^([1-4])\.$', text)
+                        match = re.match(r'^([1-4])\.', text)
                         if match:
                             current_correct_idx = int(match.group(1))
                             continue
