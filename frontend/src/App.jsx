@@ -52,7 +52,7 @@ export default function App() {
       <main className="app-main">{content}</main>
 
       <footer className="app-footer">
-        <span>created by Atul Kumar</span>
+        <span>created by Atul Kumar and Aditya Raj</span>
       </footer>
     </div>
   );
