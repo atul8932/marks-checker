@@ -39,13 +39,51 @@ async function runNimcetPipeline({ parserUrl, file }) {
     answerKey: validationAnswerKey,
   });
 
-  // Calculate NIMCET specific scores
   const cleanedResponses = validation.cleanedResponses;
+  const { marks: totalMarks, correct: totalCorrect, incorrect: totalIncorrect, unattempted: totalUnattempted, sections } =
+    calculateNimcetScore(cleanedResponses, answerKeyRaw);
+
+  const derivedConfidence =
+    expectedQuestions > 0 ? Object.keys(validationAnswerKey).length / expectedQuestions : 0;
+
+  const finalConfidence =
+    confidence == null ? derivedConfidence : Math.min(confidence, derivedConfidence);
+
+  const warning =
+    finalConfidence < 0.7 ? "Low confidence in parsing" : undefined;
+
+  return {
+    exam,
+    marks: totalMarks,
+    correct: totalCorrect,
+    incorrect: totalIncorrect,
+    unattempted: totalUnattempted,
+    confidence: Number(finalConfidence.toFixed(2)),
+    candidateDetails: parsed?.candidateDetails,
+    warning,
+    sections,
+    answerKey: answerKeyRaw,
+    _debug: {
+      expectedQuestions,
+      extractedQuestions: validation.extractedQuestions,
+      invalidCount: validation.invalidCount,
+      unknownQuestionCount: validation.unknownQuestionCount,
+    },
+    responses: cleanedResponses,
+  };
+}
+
+/**
+ * Pure scoring function for NIMCET. Can be called independently for recalculation.
+ * @param {Object} responses - { Q1: "A", Q2: "B", ... }
+ * @param {Object} answerKey  - { Q1: "C", Q2: "B", ... }
+ */
+function calculateNimcetScore(responses, answerKey) {
   let totalMarks = 0;
   let totalCorrect = 0;
   let totalIncorrect = 0;
   let totalUnattempted = 0;
-  
+
   const sections = {
     mathematics: { correct: 0, incorrect: 0, unattempted: 0, marks: 0 },
     logicalReasoning: { correct: 0, incorrect: 0, unattempted: 0, marks: 0 },
@@ -55,20 +93,20 @@ async function runNimcetPipeline({ parserUrl, file }) {
 
   for (let i = 1; i <= 120; i++) {
     const qLabel = `Q${i}`;
-    const ans = cleanedResponses[qLabel];
-    const key = answerKeyRaw[qLabel]; // use the actual extracted key
-    
+    const ans = responses[qLabel];
+    const key = answerKey[qLabel];
+
     let secKey = "";
     let posMarks = 0, negMarks = 0;
-    
-    if (i <= 50) { 
-      secKey = "mathematics"; posMarks = 12; negMarks = 3; 
-    } else if (i <= 90) { 
-      secKey = "logicalReasoning"; posMarks = 6; negMarks = 1.5; 
-    } else if (i <= 110) { 
-      secKey = "computerAwareness"; posMarks = 6; negMarks = 1.5; 
-    } else { 
-      secKey = "generalEnglish"; posMarks = 4; negMarks = 1; 
+
+    if (i <= 50) {
+      secKey = "mathematics"; posMarks = 12; negMarks = 3;
+    } else if (i <= 90) {
+      secKey = "logicalReasoning"; posMarks = 6; negMarks = 1.5;
+    } else if (i <= 110) {
+      secKey = "computerAwareness"; posMarks = 6; negMarks = 1.5;
+    } else {
+      secKey = "generalEnglish"; posMarks = 4; negMarks = 1;
     }
 
     if (!ans) {
@@ -90,35 +128,8 @@ async function runNimcetPipeline({ parserUrl, file }) {
     }
   }
 
-  const derivedConfidence =
-    expectedQuestions > 0 ? Object.keys(validationAnswerKey).length / expectedQuestions : 0;
-
-  const finalConfidence =
-    confidence == null ? derivedConfidence : Math.min(confidence, derivedConfidence);
-
-  const warning =
-    finalConfidence < 0.7 ? "Low confidence in parsing" : undefined;
-
-  return {
-    exam,
-    marks: totalMarks,
-    correct: totalCorrect,
-    incorrect: totalIncorrect,
-    unattempted: totalUnattempted,
-    confidence: Number(finalConfidence.toFixed(2)),
-    candidateDetails: parsed?.candidateDetails,
-    warning,
-    sections,
-    // Keep internally useful info for persistence if needed:
-    _debug: {
-      expectedQuestions,
-      extractedQuestions: validation.extractedQuestions,
-      invalidCount: validation.invalidCount,
-      unknownQuestionCount: validation.unknownQuestionCount,
-    },
-    responses: cleanedResponses,
-  };
+  return { marks: totalMarks, correct: totalCorrect, incorrect: totalIncorrect, unattempted: totalUnattempted, sections };
 }
 
-module.exports = { runNimcetPipeline };
+module.exports = { runNimcetPipeline, calculateNimcetScore };
 

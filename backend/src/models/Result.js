@@ -11,8 +11,9 @@ const ResultSchema = new mongoose.Schema(
     incorrect: { type: Number, required: true },
     unattempted: { type: Number, required: true },
     responses: { type: Object, required: true },
+    answerKey: { type: Object },
   },
-  { timestamps: { createdAt: true, updatedAt: false } }
+  { timestamps: true }
 );
 
 function getResultModel(examName) {

@@ -22,11 +22,10 @@ function errorHandler(err, req, res, next) {
       method: req?.method,
     });
   } catch {
-    // eslint-disable-next-line no-console
     console.error(err);
   }
 
-  res.status(status).json({ error: code, message });
+  res.status(status).json({ success: false, error: code, message });
 }
 
 module.exports = { notFound, errorHandler };

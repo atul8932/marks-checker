@@ -4,14 +4,11 @@ const { logger } = require("../../utils/logger");
 
 async function runCuetPipeline({ parserUrl, file, answerKeyFile }) {
   const exam = "cuet";
-  
-  // Since CUET has varying question counts depending on the paper,
-  // we let the parser tell us the length based on the answer key.
+
   const parsed = await parsePdf({ parserUrl, file, answerKeyFile, exam });
-  
+
   const answerKeyRaw = parsed?.answerKey || {};
   const responsesRaw = parsed?.responses || {};
-
   const expectedQuestions = Object.keys(answerKeyRaw).length;
 
   logger.info("parser_response", {
@@ -26,30 +23,9 @@ async function runCuetPipeline({ parserUrl, file, answerKeyFile }) {
     exam: "cuet",
   });
 
-  // Calculate CUET specific scores: +4 / -1
   const cleanedResponses = validation.cleanedResponses;
-  let totalMarks = 0;
-  let totalCorrect = 0;
-  let totalIncorrect = 0;
-  let totalUnattempted = 0;
-
-  for (const qLabel of Object.keys(answerKeyRaw)) {
-    const ans = cleanedResponses[qLabel];
-    const key = answerKeyRaw[qLabel];
-
-    if (!ans) {
-      totalUnattempted += 1;
-      continue;
-    }
-
-    if (key && ans === key) {
-      totalCorrect += 1;
-      totalMarks += 4;
-    } else {
-      totalIncorrect += 1;
-      totalMarks -= 1;
-    }
-  }
+  const { marks: totalMarks, correct: totalCorrect, incorrect: totalIncorrect, unattempted: totalUnattempted } =
+    calculateCuetScore(cleanedResponses, answerKeyRaw);
 
   const confidence =
     typeof parsed?.confidence === "number"
@@ -74,7 +50,7 @@ async function runCuetPipeline({ parserUrl, file, answerKeyFile }) {
     confidence: Number(finalConfidence.toFixed(2)),
     candidateDetails: parsed?.candidateDetails,
     warning,
-    // Keep internally useful info for persistence if needed:
+    answerKey: answerKeyRaw,
     _debug: {
       expectedQuestions,
       extractedQuestions: validation.extractedQuestions,
@@ -85,4 +61,38 @@ async function runCuetPipeline({ parserUrl, file, answerKeyFile }) {
   };
 }
 
-module.exports = { runCuetPipeline };
+/**
+ * Pure scoring function for CUET. Can be called independently for recalculation.
+ * Marking: +4 correct, -1 incorrect.
+ * @param {Object} responses - { Q1: "A", Q2: "B", ... }
+ * @param {Object} answerKey  - { Q1: "C", Q2: "B", ... }
+ */
+function calculateCuetScore(responses, answerKey) {
+  let totalMarks = 0;
+  let totalCorrect = 0;
+  let totalIncorrect = 0;
+  let totalUnattempted = 0;
+
+  for (const qLabel of Object.keys(answerKey)) {
+    const ans = responses[qLabel];
+    const key = answerKey[qLabel];
+
+    if (!ans) {
+      totalUnattempted += 1;
+      continue;
+    }
+
+    if (key && ans === key) {
+      totalCorrect += 1;
+      totalMarks += 4;
+    } else {
+      totalIncorrect += 1;
+      totalMarks -= 1;
+    }
+  }
+
+  return { marks: totalMarks, correct: totalCorrect, incorrect: totalIncorrect, unattempted: totalUnattempted };
+}
+
+module.exports = { runCuetPipeline, calculateCuetScore };
+

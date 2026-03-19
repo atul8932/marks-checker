@@ -13,7 +13,9 @@ const env = {
   port: Number(process.env.BACKEND_PORT || process.env.PORT || 5000),
   mongoUri: process.env.MONGO_URI || "",
   parserUrl: process.env.PARSER_URL || "http://localhost:5001",
+  redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
   uploadMaxMb: Number(process.env.UPLOAD_MAX_MB || 10),
+  asyncUpload: process.env.ASYNC_UPLOAD !== "false",
 };
 
 module.exports = { env, requireEnv };
