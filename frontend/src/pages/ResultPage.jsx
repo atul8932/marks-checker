@@ -41,9 +41,9 @@ export function ResultPage({ result, onBack }) {
 
   return (
     <div className="page" style={{ maxWidth: "1200px" }}>
-      <button 
-        onClick={onBack} 
-        className="button" 
+      <button
+        onClick={onBack}
+        className="button"
         style={{ marginBottom: "2rem", border: "none", background: "transparent", color: "var(--muted)", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}
       >
         ← Back to Exam Hub
@@ -54,9 +54,6 @@ export function ResultPage({ result, onBack }) {
             {result?.candidateDetails?.name !== "Unknown" ? result.candidateDetails.name : "Candidate"} Result
           </h1>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <span className="pill" style={{ borderColor: "rgba(124, 58, 237, 0.4)", color: "#a78bfa" }}>
-              Exam: {result?.exam?.toUpperCase() || "Unknown"}
-            </span>
             {result?.candidateDetails?.app_no && result.candidateDetails.app_no !== "Unknown" && (
               <span className="pill">App No: {result.candidateDetails.app_no}</span>
             )}
@@ -149,7 +146,7 @@ export function ResultPage({ result, onBack }) {
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 12 }} />
                   <YAxis tick={{ fill: "#94a3b8" }} />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ backgroundColor: "#1e293b", border: "none", borderRadius: "8px", color: "#fff" }}
                     itemStyle={{ color: "#38bdf8" }}
                   />
@@ -179,7 +176,7 @@ export function ResultPage({ result, onBack }) {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ backgroundColor: "#1e293b", border: "none", borderRadius: "8px", color: "#fff" }}
                 />
                 <Legend />
