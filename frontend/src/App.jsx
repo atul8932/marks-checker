@@ -3,9 +3,16 @@ import { LandingPage } from "./pages/LandingPage";
 import { HomePage } from "./pages/HomePage";
 import { UploadPage } from "./pages/UploadPage";
 import { ResultPage } from "./pages/ResultPage";
+import { AdminApp } from "./AdminApp";
 import { api } from "./api/client";
+import brandLogos from "./assets/brandlogos.png";
 
 export default function App() {
+  // ── Admin panel: completely isolated via hash routing ───────────────────
+  if (window.location.hash.startsWith("#/admin")) {
+    return <AdminApp />;
+  }
+
   const [route, setRoute] = useState({ name: "landing" });
 
   // Handle shared links: ?resultId=<id>
@@ -65,7 +72,7 @@ export default function App() {
           onClick={() => setRoute({ name: "landing" })}
           style={{ cursor: "pointer" }}
         >
-          <div className="brand-mark" aria-hidden="true" />
+          <img className="brand-mark" src={brandLogos} alt="" aria-hidden="true" />
           <div className="brand-text">
             <div className="brand-title">EXAM ANALYSER</div>
             <div className="brand-subtitle">Marks &amp; Response Checker</div>

@@ -16,6 +16,7 @@ const env = {
   redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
   uploadMaxMb: Number(process.env.UPLOAD_MAX_MB || 10),
   asyncUpload: process.env.ASYNC_UPLOAD !== "false",
+  adminSecret: process.env.ADMIN_SECRET || "",
 };
 
 module.exports = { env, requireEnv };

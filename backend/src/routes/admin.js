@@ -1,31 +1,20 @@
 const express = require("express");
-const { getResultModel } = require("../models/Result");
+const { adminAuth } = require("../middleware/adminAuth");
+const {
+  getStats,
+  getResults,
+  getJobs,
+  retryJob,
+  getHealth,
+} = require("../controllers/adminController");
 
 const router = express.Router();
 
-router.get("/results/:exam", async (req, res, next) => {
-  try {
-    const exam = String(req.params.exam).toLowerCase();
-    
-    // We only support these standard exams for now
-    if (!["nimcet", "cuet", "rrb"].includes(exam)) {
-      const err = new Error("Unsupported exam for admin panel.");
-      err.statusCode = 400;
-      throw err;
-    }
-
-    const ResultModel = getResultModel(exam);
-
-    // Fetch all documents but exclude the massive 'responses' object to save bandwidth
-    const results = await ResultModel.find({})
-      .select("-responses")
-      .sort({ createdAt: -1 })
-      .lean();
-
-    res.json({ results });
-  } catch (err) {
-    next(err);
-  }
-});
+// All routes protected by adminAuth (rate limit + token verification)
+router.get("/stats",         adminAuth, getStats);
+router.get("/results",       adminAuth, getResults);
+router.get("/jobs",          adminAuth, getJobs);
+router.post("/job/:id/retry", adminAuth, retryJob);
+router.get("/health",        adminAuth, getHealth);
 
 module.exports = router;
