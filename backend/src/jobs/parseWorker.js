@@ -15,6 +15,7 @@ const { getResultModel } = require("../models/Result");
 const { runNimcetPipeline } = require("../services/pipelines/nimcetPipeline");
 const { runCuetPipeline } = require("../services/pipelines/cuetPipeline");
 const { runRrbPipeline } = require("../services/pipelines/rrbPipeline");
+const { runSscPipeline } = require("../services/pipelines/sscPipeline");
 const { readTempFile, cleanupTempFile, cleanupOldTempFiles } = require("../utils/tempFiles");
 const { parserBreaker } = require("../utils/circuitBreaker");
 const mongoose = require("mongoose");
@@ -57,8 +58,10 @@ function startParseWorker({ parserUrl, concurrency = 2 }) {
           } else if (exam === "cuet") {
             if (!answerKeyFile) throw new Error("Answer Key is required for CUET.");
             return runCuetPipeline({ parserUrl, file, answerKeyFile });
-          } else if (exam === "rrb") {
+          } else if (exam === "rrb" || exam === "rrb-group-d" || exam === "rrb-technician") {
             return runRrbPipeline({ parserUrl, file });
+          } else if (exam === "ssc-mts") {
+            return runSscPipeline({ parserUrl, file, exam });
           } else {
             throw new Error(`Unsupported exam: ${exam}`);
           }

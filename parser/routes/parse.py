@@ -50,7 +50,7 @@ def parse_pdf():
         # CUET answers are already mapped Q1->CorrectOptionID
         responses, answer_key, candidate_details = parse_cuet(text, ak_text)
         extracted = len(responses)
-    elif exam == "rrb":
+    elif exam in ("rrb", "rrb-group-d", "rrb-technician", "ssc-mts"):
         responses, answer_key, candidate_details = parse_rrb(pdf_bytes, text)
         extracted = len(responses)
     else:
@@ -61,7 +61,7 @@ def parse_pdf():
     if expected_raw.isdigit():
         expected = int(expected_raw)
     if expected <= 0:
-        expected = 120 if exam == "nimcet" else len(answer_key) if answer_key else (100 if exam == "rrb" else 75)
+        expected = 120 if exam == "nimcet" else len(answer_key) if answer_key else (100 if exam in ("rrb", "rrb-group-d", "rrb-technician", "ssc-mts") else 75)
 
     detected_questions = len(answer_key) if answer_key else extracted
     confidence = detected_questions / expected if expected > 0 else 0.0

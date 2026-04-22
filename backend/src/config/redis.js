@@ -12,7 +12,7 @@
  */
 const IORedis = require("ioredis");
 
-function createRedisConnection(overrides = {}) {
+function createRedisConnection({ logErrors = true, ...overrides } = {}) {
   const url = process.env.REDIS_URL || "redis://localhost:6379";
 
   const opts = {
@@ -32,11 +32,37 @@ function createRedisConnection(overrides = {}) {
 
   const connection = new IORedis(url, opts);
 
-  connection.on("error", (err) => {
-    console.error("[Redis] connection error:", err.message);
-  });
+  if (logErrors) {
+    connection.on("error", (err) => {
+      console.error("[Redis] connection error:", err.message);
+    });
+  }
 
   return connection;
+}
+
+async function isRedisAvailable(timeoutMs = 1000) {
+  const connection = createRedisConnection({
+    logErrors: false,
+    lazyConnect: true,
+    connectTimeout: timeoutMs,
+    commandTimeout: timeoutMs,
+    maxRetriesPerRequest: 1,
+    retryStrategy: () => null,
+  });
+
+  try {
+    await connection.connect();
+    return (await connection.ping()) === "PONG";
+  } catch {
+    return false;
+  } finally {
+    try {
+      await connection.quit();
+    } catch {
+      connection.disconnect();
+    }
+  }
 }
 
 /**
@@ -52,4 +78,4 @@ function getCacheClient() {
   return _cacheClient;
 }
 
-module.exports = { createRedisConnection, getCacheClient };
+module.exports = { createRedisConnection, isRedisAvailable, getCacheClient };

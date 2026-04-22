@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const rateLimit = require("express-rate-limit");
+const { ipKeyGenerator } = rateLimit;
 const { env } = require("../config/env");
 const { logger } = require("../utils/logger");
 
@@ -13,7 +14,7 @@ const adminRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, error: "TooManyRequests", message: "Too many admin requests. Try again later." },
-  keyGenerator: (req) => req.ip,
+  keyGenerator: (req) => ipKeyGenerator(req.ip),
 });
 
 /**

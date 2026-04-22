@@ -13,10 +13,11 @@ const { notFound, errorHandler } = require("./middleware/errorHandler");
 const { logger, requestLogger } = require("./utils/logger");
 
 
-function createApp({ parserUrl }) {
+function createApp({ parserUrl, asyncUploadEnabled = false }) {
   const app = express();
 
   app.locals.parserUrl = parserUrl;
+  app.locals.asyncUploadEnabled = asyncUploadEnabled;
 
   app.use(helmet());
   app.use(requestLogger);
@@ -41,7 +42,7 @@ function createApp({ parserUrl }) {
   app.use(
     rateLimit({
       windowMs: 15 * 60 * 1000,
-      max: 100,
+      max: 5000,
       standardHeaders: true,
       legacyHeaders: false,
       message: { success: false, error: "TooManyRequests", message: "Too many requests, please try again later." },
@@ -57,11 +58,13 @@ function createApp({ parserUrl }) {
   app.use("/api", jobRoutes);
 
   // ── Bull Board dashboard ──────────────────────────────────
-  try {
-    const { setupBullBoard } = require("./jobs/bullBoard");
-    setupBullBoard(app);
-  } catch (err) {
-    console.warn("[App] Bull Board not available:", err.message);
+  if (asyncUploadEnabled) {
+    try {
+      const { setupBullBoard } = require("./jobs/bullBoard");
+      setupBullBoard(app);
+    } catch (err) {
+      console.warn("[App] Bull Board not available:", err.message);
+    }
   }
 
   // ── Circuit breaker health ────────────────────────────────
@@ -81,4 +84,3 @@ function createApp({ parserUrl }) {
 }
 
 module.exports = { createApp };
-

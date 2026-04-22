@@ -5,11 +5,11 @@ from typing import Dict, Tuple
 def extract_candidate_details(text: str) -> Dict[str, str]:
     details = {"app_no": "Unknown", "roll_no": "Unknown", "name": "Unknown"}
     
-    app_no_match = re.search(r"Application\s*(?:No\.?|Number)\s*:?\s*([A-Z0-9]+)", text, re.IGNORECASE)
+    app_no_match = re.search(r"(?:Application|Registration)\s*(?:No\.?|Number)\s*[:\-\n\r]*\s*([A-Z0-9]+)", text, re.IGNORECASE)
     if app_no_match:
         details["app_no"] = app_no_match.group(1).strip()
         
-    roll_no_match = re.search(r"Roll\s*(?:No\.?|Number)\s*:?\s*([A-Z0-9]+)", text, re.IGNORECASE)
+    roll_no_match = re.search(r"Roll\s*(?:No\.?|Number)\s*[:\-\n\r]*\s*([A-Z0-9]+)", text, re.IGNORECASE)
     if roll_no_match:
         details["roll_no"] = roll_no_match.group(1).strip()
         
@@ -49,11 +49,12 @@ def parse_rrb(pdf_bytes: bytes, raw_text: str) -> Tuple[Dict[str, str], Dict[str
                     g = (color >> 8) & 0xFF
                     b = color & 0xFF
                     
-                    # Detect green text (the correct option marker, e.g. "4.")
+                    # Detect green text (the correct option marker, e.g. "4." or "C.")
                     if g > r and g > b and g > 100:
-                        match = re.match(r'^([1-4])\.', text)
+                        match = re.match(r'^([1-4A-D])\.', text, re.IGNORECASE)
                         if match:
-                            current_correct_idx = int(match.group(1))
+                            val = match.group(1).upper()
+                            current_correct_idx = (ord(val) - ord('A') + 1) if val.isalpha() else int(val)
                             continue
                     
                     # Detect metadata fields
@@ -71,15 +72,20 @@ def parse_rrb(pdf_bytes: bytes, raw_text: str) -> Tuple[Dict[str, str], Dict[str
                         
                     cho_match = re.match(r'Chosen\s*Option\s*:\s*(.*)', text, re.IGNORECASE)
                     if cho_match:
-                        ans_raw = cho_match.group(1).strip()
+                        ans_raw = cho_match.group(1).strip().upper()
                         if current_qid and current_correct_idx is not None and all(current_options):
                             # We have everything for this question! Save it
                             correct_opt_id = current_options[current_correct_idx - 1]
                             answer_key[current_qid] = correct_opt_id
                             
+                            cho_idx = -1
                             if ans_raw.isdigit():
                                 cho_idx = int(ans_raw) - 1
-                                responses[current_qid] = current_options[cho_idx] if 0 <= cho_idx < 4 else "Unattempted"
+                            elif len(ans_raw) == 1 and ans_raw.isalpha():
+                                cho_idx = ord(ans_raw) - ord('A')
+                                
+                            if 0 <= cho_idx < 4:
+                                responses[current_qid] = current_options[cho_idx]
                             else:
                                 responses[current_qid] = "Unattempted"
                                 

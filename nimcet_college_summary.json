@@ -1,0 +1,274 @@
+{
+  "Indian Institute of Information Technology Vadodara (Gandhinagar Campus)": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 798.0,
+    "max_closing_rank": 12002.0,
+    "total_records": 30
+  },
+  "Indian Institute of Information Technology Vadodara (International Campus-Diu)": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 820.0,
+    "max_closing_rank": 11930.0,
+    "total_records": 30
+  },
+  "Indian Institute of Information Technology Bhopal": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 470.0,
+    "max_closing_rank": 11457.0,
+    "total_records": 28
+  },
+  "Maulana Azad National Institute of Technology Bhopal": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "SC (PwD)",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 196.0,
+    "max_closing_rank": 10349.0,
+    "total_records": 32
+  },
+  "Motilal Nehru National Institute of Technology Allahabad": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "SC (PwD)",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 20.0,
+    "max_closing_rank": 9232.0,
+    "total_records": 25
+  },
+  "National Institute of Technology  Agartala": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 621.0,
+    "max_closing_rank": 7650.0,
+    "total_records": 26
+  },
+  "National Institute of Technology Delhi": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 55.0,
+    "max_closing_rank": 11930.0,
+    "total_records": 33
+  },
+  "National Institute of Technology Meghalaya": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 327.0,
+    "max_closing_rank": 7099.0,
+    "total_records": 27
+  },
+  "National Institute of Technology Patna": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Round 3",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 284.0,
+    "max_closing_rank": 10853.0,
+    "total_records": 106
+  },
+  "National Institute of Technology Raipur": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 229.0,
+    "max_closing_rank": 10693.0,
+    "total_records": 32
+  },
+  "National Institute of Technology, Jamshedpur": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 311.0,
+    "max_closing_rank": 10235.0,
+    "total_records": 32
+  },
+  "National Institute of Technology, Kurukshetra": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 41.0,
+    "max_closing_rank": 8616.0,
+    "total_records": 44
+  },
+  "National Institute of Technology, Tiruchirappalli": {
+    "rounds": [
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "OBC-NCL (PwD)",
+      "Open",
+      "SC (PwD)",
+      "OBC-NCL"
+    ],
+    "min_opening_rank": 1.0,
+    "max_closing_rank": 8058.0,
+    "total_records": 17
+  },
+  "National Institute of Technology, Warangal": {
+    "rounds": [
+      "Round 2",
+      "Round 1",
+      "Special Round"
+    ],
+    "categories": [
+      "SC",
+      "Open (PwD)",
+      "ST",
+      "Gen-EWS",
+      "Open",
+      "OBC-NCL",
+      "Gen-EWS (PwD)"
+    ],
+    "min_opening_rank": 49.0,
+    "max_closing_rank": 4808.0,
+    "total_records": 20
+  }
+}

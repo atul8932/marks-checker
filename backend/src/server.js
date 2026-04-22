@@ -1,12 +1,17 @@
 const { createApp } = require("./app");
 const { connectMongo } = require("./config/db");
 const { env } = require("./config/env");
+const { isRedisAvailable } = require("./config/redis");
 
 async function start() {
   await connectMongo(env.mongoUri);
 
+  const asyncRequested = process.env.ASYNC_UPLOAD !== "false";
+  const redisAvailable = asyncRequested ? await isRedisAvailable() : false;
+  const asyncUploadEnabled = asyncRequested && redisAvailable;
+
   // ── Start BullMQ worker (in-process for Koyeb single-dyno) ──
-  if (process.env.ASYNC_UPLOAD !== "false") {
+  if (asyncUploadEnabled) {
     try {
       const { startParseWorker } = require("./jobs/parseWorker");
       startParseWorker({
@@ -18,9 +23,14 @@ async function start() {
       console.error("[Server] Failed to start worker (Redis may be down):", err.message);
       console.log("[Server] Falling back to sync upload mode");
     }
+  } else if (asyncRequested) {
+    console.warn("[Server] Redis unavailable at startup. Async uploads disabled; using sync upload mode.");
   }
 
-  const app = createApp({ parserUrl: env.parserUrl });
+  const app = createApp({
+    parserUrl: env.parserUrl,
+    asyncUploadEnabled,
+  });
 
   app.listen(env.port, () => {
     console.log(`Backend listening on http://localhost:${env.port}`);

@@ -2,6 +2,7 @@ const { getResultModel } = require("../models/Result");
 const { runNimcetPipeline } = require("../services/pipelines/nimcetPipeline");
 const { runCuetPipeline } = require("../services/pipelines/cuetPipeline");
 const { runRrbPipeline } = require("../services/pipelines/rrbPipeline");
+const { runSscPipeline } = require("../services/pipelines/sscPipeline");
 const { logger } = require("../utils/logger");
 
 // BullMQ queue (lazy-loaded so the import doesn't crash if Redis is down)
@@ -47,7 +48,7 @@ async function uploadAndScore(req, res) {
     throw err;
   }
 
-  const supportedExams = ["nimcet", "cuet", "rrb"];
+  const supportedExams = ["nimcet", "cuet", "rrb", "ssc-mts", "rrb-group-d", "rrb-technician"];
   if (!supportedExams.includes(exam)) {
     const err = new Error(`Unsupported exam: ${exam}`);
     err.statusCode = 400;
@@ -56,7 +57,7 @@ async function uploadAndScore(req, res) {
   }
 
   // ── ASYNC MODE ────────────────────────────────────────────────
-  const useAsync = process.env.ASYNC_UPLOAD !== "false";
+  const useAsync = req.app.locals.asyncUploadEnabled === true;
 
   if (useAsync) {
     try {
@@ -106,8 +107,10 @@ async function uploadAndScore(req, res) {
     pipelineResult = await runNimcetPipeline({ parserUrl, file });
   } else if (exam === "cuet") {
     pipelineResult = await runCuetPipeline({ parserUrl, file, answerKeyFile });
-  } else if (exam === "rrb") {
+  } else if (exam === "rrb" || exam === "rrb-group-d" || exam === "rrb-technician") {
     pipelineResult = await runRrbPipeline({ parserUrl, file });
+  } else if (exam === "ssc-mts") {
+    pipelineResult = await runSscPipeline({ parserUrl, file, exam });
   }
 
   const { name, app_no, roll_no } = pipelineResult.candidateDetails || {};

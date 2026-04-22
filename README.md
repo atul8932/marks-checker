@@ -59,6 +59,10 @@ npm run dev
 
 Open the printed Vite URL (typically `http://localhost:5173`).
 
+## Run Redis
+docker compose up -d redis
+
+
 ## Notes
 
 - Answer key lives in `shared/nimcet_answer_key.json`.
