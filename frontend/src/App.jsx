@@ -25,7 +25,7 @@ export default function App() {
 
     api.get(`/api/result/${resultId}`)
       .then(resp => setRoute({ name: "result", result: resp.data }))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const content = useMemo(() => {
@@ -83,7 +83,7 @@ export default function App() {
       <main className="app-main">{content}</main>
 
       <footer className="app-footer">
-        <span>© 2026 Exam Analyser · Built by Atul Kumar and Aditya Raj</span>
+        <span>© 2026 Exam Analyser · Built by Shrinu Srinivas</span>
       </footer>
     </div>
   );
