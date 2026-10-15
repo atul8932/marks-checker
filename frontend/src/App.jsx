@@ -83,7 +83,7 @@ export default function App() {
       <main className="app-main">{content}</main>
 
       <footer className="app-footer">
-        <span>© 2026 Exam Analyser · Built by Shrinu Srinivas</span>
+        <span>© 2026 Exam Analyser · Built by Maggie</span>
       </footer>
     </div>
   );
